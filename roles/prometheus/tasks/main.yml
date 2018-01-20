@@ -1,0 +1,27 @@
+---
+# tasks file for prometheus
+- name: Create directory
+  become: true
+  file:
+    path: /opt/prometheus
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+- name: Download and untar prometheus sources
+  become: true
+  unarchive:
+    src: https://github.com/prometheus/prometheus/releases/download/v2.1.0/prometheus-2.1.0.linux-amd64.tar.gz
+    dest: /opt/prometheus
+    creates: /opt/prometheus/prometheus-2.1.0.linux-amd64/prometheus
+    copy: no
+    owner: root
+    group: root
+- name: Set symlink to binary
+  become: true
+  file:
+    src: /opt/prometheus/prometheus-2.1.0.linux-amd64/prometheus
+    dest: /usr/bin/prometheus
+    owner: root
+    group: root
+    state: link
