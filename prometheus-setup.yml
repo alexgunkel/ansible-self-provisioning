@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Start node exporter
+      docker_container:
+       name: node_exporter
+       image: prom/node-exporter
+       ports:
+         - "9100:9100"
+    - name: Start prometheus
+      docker_container:
+        name: prometheus
+        image: prom/prometheus
+        volumes:
+          - "/srv/monitoring/prometheus/init.yml:/etc/prometheus/prometheus.yml"
+        ports:
+          - "9090:9090"
+    - name: Start Grafana
+      docker_container:
+        name: grafana
+        image: grafana/grafana
+        ports:
+          - "3000:3000"

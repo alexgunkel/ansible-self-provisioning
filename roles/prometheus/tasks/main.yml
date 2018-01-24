@@ -25,3 +25,12 @@
     owner: root
     group: root
     state: link
+- name: Download and untar prometheus node-exporter sources
+  become: true
+  unarchive:
+    src: https://github.com/prometheus/node_exporter/releases/download/v0.15.2/node_exporter-0.15.2.linux-amd64.tar.gz
+    dest: /opt/prometheus
+    creates: /opt/prometheus/node_exporter-0.15.2.linux-amd64
+    copy: no
+    owner: root
+    group: root
